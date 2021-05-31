@@ -6,9 +6,7 @@ from datetime import date, timedelta, datetime
 import pickle
 import numpy as np
 import os
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow,Flow
-from google.auth.transport.requests import Request
+
 
 st.set_page_config(layout = 'wide')
 
@@ -316,71 +314,6 @@ text = bars.mark_text(
 subcat2_chart = (bars + text).properties()
 
 col2.altair_chart(subcat2_chart, use_container_width=True)
-
-
-
-st.markdown('# Transferências')
-def pegadiasem(row):
-    """Função que pega o dia 0 da semana dado a coluna"""
-    try:
-        dian = row[col].dayofweek
-        dia  = row[col] - pd.to_timedelta(dian, unit='d')
-    except:
-        dia = float("nan")
-        
-    return (dia)
-
-SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
-
-# here enter the id of your google sheet
-SAMPLE_SPREADSHEET_ID_input = '1YaMKwznphKyDB9ZoD8hlkRnJBa2SIvm0r5InlWd5eXM'
-SAMPLE_RANGE_NAME = 'Tickets!A1:AD1000000'
-
-def main():
-    global values_input, service
-    creds = None
-    if os.path.exists('token.pickle'):
-        with open('token.pickle', 'rb') as token:
-            creds = pickle.load(token)
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'client_secrets.json', SCOPES) # here enter the name of your downloaded JSON file
-            creds = flow.run_local_server(port=0)
-        with open('token.pickle', 'wb') as token:
-            pickle.dump(creds, token)
-
-    service = build('sheets', 'v4', credentials=creds)
-
-    # Call the Sheets API
-    sheet = service.spreadsheets()
-    result_input = sheet.values().get(spreadsheetId=SAMPLE_SPREADSHEET_ID_input,
-                                range=SAMPLE_RANGE_NAME).execute()
-    values_input = result_input.get('values', [])
-
-main()
-
-DF_full =pd.DataFrame(values_input[1:], columns=values_input[0])
-
-DF_transf = DF_full[['ID', 'P_qn_foi_dir','DT_dir', '1_Categoria', '1_Subcategoria', 
-                     '1_Subcategoria2', '2_Categoria', '2_Subcategoria', '2_Subcategoria2']].dropna().reset_index(drop=True)
-col = 'DT_dir'
-DF_transf[col] = pd.to_datetime(DF_transf[col])
-DF_transf['DT'] = DF_transf.apply(pegadiasem, axis = 1)
-DF_transf2 = pd.DataFrame(DF_transf[['ID', 'P_qn_foi_dir', 'DT']].groupby(['P_qn_foi_dir', pd.Grouper(key='DT', freq='W-MON')])['ID'].count()).reset_index()
-DF_transf2.DT = pd.to_datetime(DF_transf2.DT)
-DF_transf2 = DF_transf2.rename(columns = {'ID': 'Quantidade', 'DT': 'Data', 'P_qn_foi_dir': 'Direcionamento'})
-transf_chart = alt.Chart(DF_transf2,width=800).mark_area().encode(
-    x="Data:T",
-    y="Quantidade:Q",
-    color=alt.Color('Direcionamento'),
-    tooltip=['Direcionamento:N', 'Quantidade:Q']
-).configure_axis(grid = False).interactive()
-
-st.altair_chart(transf_chart)
-
 
 
 
