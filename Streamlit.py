@@ -105,16 +105,16 @@ for Subcat in Subcategão.keys():
 
 ### Mekko ####
 # paleta de cores
-col1 = '#001219-#617166-#6f7e74-#7c8a81-#88958c-#939f96-#9da8a0-#a6b0a9-#aeb7b1-#b5beb8'.split('-')
-col2 = '#004e5f-#005769-#005f73-#2e7785-#5b8f96-#729b9f-#88a7a7-#9fb3b0-#aab9b4-#b0bcb6'.split('-')
-col3 = '#087a7c-#098688-#0a9396-#5da8a6-#87b2ae-#9cb7b2-#a6bab4-#abbbb5-#b0bcb6-#b7c2bd'.split('-')
-col4 = '#55776a-#5d8375-#669081-#709e8e-#7bae9c-#87bfac-#94d2bd-#a2c7ba-#a9c2b8-#adbfb7'.split('-')
-col5 = '#6f7964-#757f69-#7a856e-#8a7e66-#9a765e-#a47860-#ae7962-#b58570-#bc907d-#c29a89'.split('-')
-col6 = '#9f9372-#afa27d-#b4a680-#b8aa83-#c1b289-#cbbb90-#d4c497-#dfce9f-#e9d8a6-#ebdcae'.split('-')
-col7 = '#bb3e03-#be480e-#c15218-#c7652c-#ca6f37-#cd7841-#d28b55-#d69664-#daa072-#dda97f'.split('-')
-col8 = '#ae2012-#b83915-#c96d44-#d2875b-#d6926a-#da9c78-#dda584-#e0ad8f-#e3b499-#e6bba2'.split('-')
-col9 = "#91412c-#ac5a42-#b36048-#b9664d-#bf745d-#c27b65-#c5816c-#ca8c79-#cf9685-#d3a090".split('-')
-col10= '#74191d-#801c20-#8d1f23-#9b2226-#b24835-#c67257-#d6977d-#daa089-#dda994-#e0b19e'.split('-')
+col7  = '#50e29b-#2cc95b-#6cda7d-#95de91-#7ad062-#75c743-#9dd062-#afd572-#c3de92-#cee2a0'.split('-')
+col2  = '#a8201a-#a03828-#985036-#906844-#8c744b-#7e714e-#877d5a-#928a63-#a39d7a-#aba686'.split('-')
+col9  = '#dad2d8-#c7c0c5-#beb7bc-#b9b3b7-#b4aeb2-#b6b2a9-#bdb9b1-#cdcac4-#d2cfc9-#e3e2de'.split('-')
+col1  = '#143642-#5d686f-#717c84-#7c858d-#8f959c-#9b9ea5-#a4a7ad-#acafb4-#b4b6bb-#bbbdc1'.split('-')
+col4  = '#d05011-#cd5e27-#c96b3d-#c57853-#d6ae99-#be7f60-#cc9a82-#ca967d-#dab6a4-#e8d0c5'.split('-')
+col5  = '#0b5d1e-#3c5e21-#545e22-#67662d-#7f7839-#796d37-#877c4b-#a19973-#bcb69b-#cac4af'.split('-')
+col6  = '#ee6055-#d8604f-#c95540-#b8563d-#c56751-#cd7b68-#d28877-#dca395-#e6bdb4-#ebcac3'.split('-')
+col8  = '#0f8b8d-#42817e-#538c8a-#649895-#76a3a1-#87afad-#98bab9-#a9c6c4-#bad1d0-#cbdddc'.split('-')
+col3  = '#42253b-#52354b-#61455b-#71556b-#81657b-#90758a-#a0859a-#b095aa-#bfa5ba-#cfb5ca'.split('-')
+col10 = '#ffb30f-#efa51a-#e8a12c-#e09c3e-#de9636-#dc902e-#e7bc85-#eecfa9-#f4e2cc-#f7ebde'.split('-')
 paleta = [col1, col2, col3, col4, col5, col6, col7, col8, col9, col10]
 
 #Pega cor pra cada subcategoria
