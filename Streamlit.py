@@ -6,7 +6,9 @@ from datetime import date, timedelta, datetime
 import pickle
 import numpy as np
 import os
-
+from googleapiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow,Flow
+from google.auth.transport.requests import Request
 
 st.set_page_config(layout = 'wide')
 
@@ -177,7 +179,7 @@ Categão_mekk[list(Categão_mekk.columns)[2:]] = Categão_mekk[list(Categão_mek
 
 
 qtd_cat = Categão.Qtd.sum()/13
-subcat_chart = alt.Chart(Categão_mekk, height=350, width=868).transform_stack(
+subcat_chart = alt.Chart(Categão_mekk, height=350, width=695).transform_stack(
     stack='Qtd',
     as_=['x1', 'x2'],
     groupby=[]
@@ -195,17 +197,16 @@ subcat_chart = alt.Chart(Categão_mekk, height=350, width=868).transform_stack(
     as_=['y1', 'y2']
 ).mark_rect(strokeWidth=0.3
 ).encode(
-    x=alt.X('x1:Q', title='', axis=alt.Axis(labels=False, grid=False, ticks = False), scale=alt.Scale(domain=[0, 600])),
+    x=alt.X('x1:Q', title='', axis=alt.Axis(labels=False, grid=False, ticks = False)),
     x2='x2:Q',
     y=alt.Y('y1:Q', title='', axis=alt.Axis(labels=False, grid=False, ticks = False)),
     y2='y2:Q',
-    tooltip=['Categoria:N', 'subcategoria:N', 'Quantidade_total:Q'],
+    tooltip=['Categoria:N', 'subcategoria:N'],
     color = alt.Color('subcategoria:N', scale=alt.Scale(domain=list(colores_sub.keys()), range=list(colores_sub.values())), legend = None),opacity=alt.value(0.85),
     order = alt.Order('Categoria:Q', sort = 'ascending')
 )
 text2 = subcat_chart.mark_text(dx=0, dy=-8, align='left', fontSize=9).encode(
-    text=alt.Text('subcategoria:N'), color = alt.condition(alt.datum.Quantidade_total > qtd_cat, alt.value('White'),  alt.value(''),
-    stroke=alt.value('dark')
+    text=alt.Text('subcategoria:N'), color = alt.condition(alt.datum.Quantidade_total > qtd_cat, alt.value('White'),  alt.value('')
 ))
 
 subcat_chart2 = alt.layer(subcat_chart, text2)
@@ -314,6 +315,71 @@ text = bars.mark_text(
 subcat2_chart = (bars + text).properties()
 
 col2.altair_chart(subcat2_chart, use_container_width=True)
+
+
+
+st.markdown('# Transferências')
+def pegadiasem(row):
+    """Função que pega o dia 0 da semana dado a coluna"""
+    try:
+        dian = row[col].dayofweek
+        dia  = row[col] - pd.to_timedelta(dian, unit='d')
+    except:
+        dia = float("nan")
+        
+    return (dia)
+
+SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
+
+# here enter the id of your google sheet
+SAMPLE_SPREADSHEET_ID_input = '1YaMKwznphKyDB9ZoD8hlkRnJBa2SIvm0r5InlWd5eXM'
+SAMPLE_RANGE_NAME = 'Tickets!A1:AD1000000'
+
+def main():
+    global values_input, service
+    creds = None
+    if os.path.exists('token.pickle'):
+        with open('token.pickle', 'rb') as token:
+            creds = pickle.load(token)
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file(
+                'client_secrets.json', SCOPES) # here enter the name of your downloaded JSON file
+            creds = flow.run_local_server(port=0)
+        with open('token.pickle', 'wb') as token:
+            pickle.dump(creds, token)
+
+    service = build('sheets', 'v4', credentials=creds)
+
+    # Call the Sheets API
+    sheet = service.spreadsheets()
+    result_input = sheet.values().get(spreadsheetId=SAMPLE_SPREADSHEET_ID_input,
+                                range=SAMPLE_RANGE_NAME).execute()
+    values_input = result_input.get('values', [])
+
+main()
+
+DF_full =pd.DataFrame(values_input[1:], columns=values_input[0])
+
+DF_transf = DF_full[['ID', 'P_qn_foi_dir','DT_dir', '1_Categoria', '1_Subcategoria', 
+                     '1_Subcategoria2', '2_Categoria', '2_Subcategoria', '2_Subcategoria2']].dropna().reset_index(drop=True)
+col = 'DT_dir'
+DF_transf[col] = pd.to_datetime(DF_transf[col])
+DF_transf['DT'] = DF_transf.apply(pegadiasem, axis = 1)
+DF_transf2 = pd.DataFrame(DF_transf[['ID', 'P_qn_foi_dir', 'DT']].groupby(['P_qn_foi_dir', pd.Grouper(key='DT', freq='W-MON')])['ID'].count()).reset_index()
+DF_transf2.DT = pd.to_datetime(DF_transf2.DT)
+DF_transf2 = DF_transf2.rename(columns = {'ID': 'Quantidade', 'DT': 'Data', 'P_qn_foi_dir': 'Direcionamento'})
+transf_chart = alt.Chart(DF_transf2,width=800).mark_area().encode(
+    x="Data:T",
+    y="Quantidade:Q",
+    color=alt.Color('Direcionamento'),opacity=alt.value(0.80),
+    tooltip=['Direcionamento:N', 'Quantidade:Q']
+).configure_axis(grid = False).interactive()
+
+st.altair_chart(transf_chart)
+
 
 
 
