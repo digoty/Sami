@@ -258,19 +258,32 @@ for ele in Cat_full_filtrada:
             area_subcatcat['Subcategoria'].append(subcat)
             area_subcatcat['Qtd'].append(ele['infos'][Cat_select][subcat]['Total'])
 area_subcatcat = pd.DataFrame(area_subcatcat)     
+refs = area_subcatcat['Referência'].drop_duplicates().reset_index(drop=True)
+refs2 = {'ref':[], 'semana':[]}
+for ref in refs:
+    refs2['ref'].append(ref)
+    refs2['semana'].append(str(ref)+" a "+str(ref+timedelta(days=6)))
+refs2 = pd.DataFrame(refs2)
+area_subcatcat = area_subcatcat.merge(refs2, how='left', left_on='Referência', right_on='ref')
+area_subcatcat= area_subcatcat.drop(columns = ['Referência', 'ref'])
+total_sem = pd.DataFrame(area_subcatcat.groupby('semana')['Qtd'].sum())
+area_subcatcat = area_subcatcat.merge(total_sem.rename(columns = {'Qtd': 'qtot'}), how='left', on = 'semana')
+area_subcatcat['%'] = (area_subcatcat.Qtd/area_subcatcat.qtot*100).round(0)
 
-area_subcatcat.Referência = pd.to_datetime(area_subcatcat.Referência)
+
+
+# area_subcatcat.Referência = pd.to_datetime(area_subcatcat.Referência)
 area_subcatcat.Qtd = pd.to_numeric(area_subcatcat.Qtd)
 
 
-time_subcat = alt.Chart(area_subcatcat, title = 'Evolução temporal subcategorias da categoria '+Cat_select,width=800).mark_area().encode(
-    x="Referência:T",
+time_subcat = alt.Chart(area_subcatcat, title = 'Evolução temporal subcategorias da categoria '+Cat_select,width=800).mark_bar().encode(
+    x=alt.X("semana", axis=alt.Axis(labelAngle = 0, labelFontSize=12)),
     y="Qtd:Q",
     color=alt.Color('Subcategoria:N', scale=alt.Scale(domain=list(area_subcatcat.Subcategoria.drop_duplicates()), 
                                                       range=[colores_sub[sub] for sub in list(area_subcatcat.Subcategoria.drop_duplicates())]), 
                     legend=alt.Legend(orient='right')),
                     opacity=alt.value(.9),
-    tooltip=['Subcategoria:N', 'Qtd:Q', 'Referência']
+    tooltip=['Subcategoria:N', 'Qtd:Q', 'semana', '%']
 ).configure_axis(grid = False).interactive()
 
 col1.altair_chart(time_subcat, use_container_width=True)
