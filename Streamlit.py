@@ -109,8 +109,8 @@ col7  = '#50e29b-#2cc95b-#6cda7d-#95de91-#7ad062-#75c743-#9dd062-#afd572-#c3de92
 col2  = '#a8201a-#a03828-#985036-#906844-#8c744b-#7e714e-#877d5a-#928a63-#a39d7a-#aba686'.split('-')
 col9  = '#dad2d8-#c7c0c5-#beb7bc-#b9b3b7-#b4aeb2-#b6b2a9-#bdb9b1-#cdcac4-#d2cfc9-#e3e2de'.split('-')
 col1  = '#143642-#5d686f-#717c84-#7c858d-#8f959c-#9b9ea5-#a4a7ad-#acafb4-#b4b6bb-#bbbdc1'.split('-')
-col4  = '#d05011-#cd5e27-#c96b3d-#c57853-#d6ae99-#be7f60-#cc9a82-#ca967d-#dab6a4-#e8d0c5'.split('-')
-col5  = '#0b5d1e-#3c5e21-#545e22-#67662d-#7f7839-#796d37-#877c4b-#a19973-#bcb69b-#cac4af'.split('-')
+col5  = '#d05011-#cd5e27-#c96b3d-#c57853-#d6ae99-#be7f60-#cc9a82-#ca967d-#dab6a4-#e8d0c5'.split('-')
+col4  = '#0b5d1e-#3c5e21-#545e22-#67662d-#7f7839-#796d37-#877c4b-#a19973-#bcb69b-#cac4af'.split('-')
 col6  = '#ee6055-#d8604f-#c95540-#b8563d-#c56751-#cd7b68-#d28877-#dca395-#e6bdb4-#ebcac3'.split('-')
 col8  = '#0f8b8d-#42817e-#538c8a-#649895-#76a3a1-#87afad-#98bab9-#a9c6c4-#bad1d0-#cbdddc'.split('-')
 col3  = '#42253b-#52354b-#61455b-#71556b-#81657b-#90758a-#a0859a-#b095aa-#bfa5ba-#cfb5ca'.split('-')
@@ -277,7 +277,7 @@ area_subcatcat.Qtd = pd.to_numeric(area_subcatcat.Qtd)
 
 
 time_subcat = alt.Chart(area_subcatcat, title = 'Evolução temporal subcategorias da categoria '+Cat_select,width=800).mark_bar().encode(
-    x=alt.X("semana", axis=alt.Axis(labelAngle = 0, labelFontSize=12)),
+    x=alt.X("semana", axis=alt.Axis(labelAngle = -30, labelFontSize=12)),
     y="Qtd:Q",
     color=alt.Color('Subcategoria:N', scale=alt.Scale(domain=list(area_subcatcat.Subcategoria.drop_duplicates()), 
                                                       range=[colores_sub[sub] for sub in list(area_subcatcat.Subcategoria.drop_duplicates())]), 
