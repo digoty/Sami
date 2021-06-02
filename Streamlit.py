@@ -276,7 +276,7 @@ area_subcatcat['%'] = (area_subcatcat.Qtd/area_subcatcat.qtot*100).round(0)
 area_subcatcat.Qtd = pd.to_numeric(area_subcatcat.Qtd)
 
 
-time_subcat = alt.Chart(area_subcatcat, title = 'Evolução temporal subcategorias da categoria '+Cat_select,width=800).mark_bar().encode(
+time_subcat = alt.Chart(area_subcatcat, title = 'Evolução temporal subcategorias da categoria '+Cat_select,width=1100).mark_bar().encode(
     x=alt.X("semana", axis=alt.Axis(labelAngle = -30, labelFontSize=12)),
     y="Qtd:Q",
     color=alt.Color('Subcategoria:N', scale=alt.Scale(domain=list(area_subcatcat.Subcategoria.drop_duplicates()), 
