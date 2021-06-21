@@ -115,7 +115,8 @@ col6  = '#ee6055-#d8604f-#c95540-#b8563d-#c56751-#cd7b68-#d28877-#dca395-#e6bdb4
 col8  = '#0f8b8d-#42817e-#538c8a-#649895-#76a3a1-#87afad-#98bab9-#a9c6c4-#bad1d0-#cbdddc'.split('-')
 col3  = '#42253b-#52354b-#61455b-#71556b-#81657b-#90758a-#a0859a-#b095aa-#bfa5ba-#cfb5ca'.split('-')
 col10 = '#ffb30f-#efa51a-#e8a12c-#e09c3e-#de9636-#dc902e-#e7bc85-#eecfa9-#f4e2cc-#f7ebde'.split('-')
-paleta = [col1, col2, col3, col4, col5, col6, col7, col8, col9, col10]
+col11 = '#800f2f-#a4133c-#b71643-#c9184a-#ff4d6d-#ff617e-#ff758f-#ff8fa3-#ffb3c1-#ffccd5'.split('-')
+paleta = [col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11]
 
 #Pega cor pra cada subcategoria
 colores_cat = {}
