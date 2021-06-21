@@ -122,15 +122,20 @@ colores_cat = {}
 colores_sub = {}
 for n in range(len(Categão['Categoria'])):
     N = 0
-    colores_cat[Categão['Categoria'][n]]= paleta[n][N]
-
+    try:
+        colores_cat[Categão['Categoria'][n]]= paleta[n][N]
+    except:
+        colores_cat[Categão['Categoria'][n]]= paleta[n-1][N]
     # valor do incremento para as cores (se a lista tem 2 subs só pego as duas cores mais opostas)
     incremento = 9//(len(Cat_filtrada_total[Categão['Categoria'][n]]))
 
     for Subcat in Cat_filtrada_total[Categão['Categoria'][n]].keys():
         if Subcat not in colores_sub.keys() and Subcat != 'Total':
             N += incremento
-            colores_sub[Subcat] = paleta[n][N]
+            try:
+                colores_sub[Subcat] = paleta[n][N]
+            except:
+                colores_sub[Subcat] = paleta[n-1][N]
 
 #Tamanho do eixo x
 len_x = int(Categão.sum().Qtd/100)*100
@@ -228,7 +233,7 @@ area_cat = pd.DataFrame(area_cat)
 area_cat.Referência = pd.to_datetime(area_cat.Referência)
 area_cat.Qtd = pd.to_numeric(area_cat.Qtd)
 
-time_cat =alt.Chart(area_cat,height=450).mark_area().encode(
+time_cat =alt.Chart(area_cat,height=450).mark_area(interpolate="basis").encode(
     x="Referência:T",
     y="Qtd:Q",
     color=alt.Color('Categoria:N', scale=alt.Scale(domain=list(colores_cat.keys()), range=list(colores_cat.values())), legend=alt.Legend(orient='right')),
