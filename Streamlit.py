@@ -282,7 +282,6 @@ time_subcat = alt.Chart(area_subcatcat, title = 'Evolução temporal subcategori
     color=alt.Color('Subcategoria:N', 
                             legend=alt.Legend(orient='right')),
                             opacity=alt.value(.9),
-                    opacity=alt.value(.9),
     tooltip=['Subcategoria:N', 'Qtd:Q', 'semana', '%']
 ).configure_axis(grid = False).interactive()
 
