@@ -27,8 +27,8 @@ st.sidebar.markdown('___')
 
 ## Seleciona range de datas
 st.markdown("# Motivos de contato")
-min_date = date(2021,1,1)
-max_date = date(2021,6,1)
+min_date = date.today() - timedelta(days=21)
+max_date = date.today()
 
 a_date = st.date_input("Selecione o range de datas:", (min_date, max_date))
 min_date = a_date[0]
