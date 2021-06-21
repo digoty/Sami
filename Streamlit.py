@@ -279,9 +279,9 @@ area_subcatcat.Qtd = pd.to_numeric(area_subcatcat.Qtd)
 time_subcat = alt.Chart(area_subcatcat, title = 'Evolução temporal subcategorias da categoria '+Cat_select,width=800, height=500).mark_bar().encode(
     x=alt.X("semana", axis=alt.Axis(labelAngle = -30, labelFontSize=12)),
     y="Qtd:Q",
-    color=alt.Color('Subcategoria:N', scale=alt.Scale(domain=list(area_subcatcat.Subcategoria.drop_duplicates()), 
-                                                      range=[colores_sub[sub] for sub in list(area_subcatcat.Subcategoria.drop_duplicates())]), 
-                    legend=alt.Legend(orient='right')),
+    color=alt.Color('Subcategoria:N', 
+                            legend=alt.Legend(orient='right')),
+                            opacity=alt.value(.9),
                     opacity=alt.value(.9),
     tooltip=['Subcategoria:N', 'Qtd:Q', 'semana', '%']
 ).configure_axis(grid = False).interactive()
