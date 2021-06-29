@@ -6,10 +6,30 @@ from datetime import date, timedelta, datetime
 import pickle
 import numpy as np
 import os
-
+import base64
 
 st.set_page_config(layout = 'wide')
 
+def download_link(object_to_download, download_filename, download_link_text):
+    """
+    Generates a link to download the given object_to_download.
+
+    object_to_download (str, pd.DataFrame):  The object to be downloaded.
+    download_filename (str): filename and extension of file. e.g. mydata.csv, some_txt_output.txt
+    download_link_text (str): Text to display for download link.
+
+    Examples:
+    download_link(YOUR_DF, 'YOUR_DF.csv', 'Click here to download data!')
+    download_link(YOUR_STRING, 'YOUR_STRING.txt', 'Click here to download your text!')
+
+    """
+    if isinstance(object_to_download,pd.DataFrame):
+        object_to_download = object_to_download.to_csv(index=False)
+
+    # some strings <-> bytes conversions necessary here
+    b64 = base64.b64encode(object_to_download.encode()).decode()
+
+    return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 
 #Carrega dados
 with open("Dados/Full.txt", 'rb') as f:
@@ -221,6 +241,30 @@ col1.markdown('### Mekko categorias e subcategorias')
 col1.altair_chart(cat_chart2, use_container_width=True)
 col1.altair_chart(subcat_chart2, use_container_width=True)
 
+col1.write("### Download ")
+
+
+DF = pd.DataFrame({})
+for ref in Cat_full_filtrada:
+    Semana = ref['referência']
+
+    for categoria in ref['infos'].keys():
+        record = {}
+        record['Semana'] = Semana
+        record['Categoria'] = categoria
+        record['Qtd_categoria'] = ref['infos'][categoria]['Total']
+
+        if categoria != 'Total':
+            for subcategoria in ref['infos'][categoria].keys():
+                if subcategoria != 'Total':
+                    record[subcategoria] = ref['infos'][categoria][subcategoria]['Total']
+
+        DF = pd.concat([DF, pd.DataFrame([record])], ignore_index=True).reset_index(drop=True)
+
+DF = DF.fillna(0)
+if st.button(' Download base em CSV'):
+  tmp_download_link = download_link(DF, 'Categão.csv', 'Clique aqui para baixar os dados!')
+  st.markdown(tmp_download_link, unsafe_allow_html=True)
 
 
 area_cat = {'Referência': [], 'Categoria': [], 'Qtd': []}
