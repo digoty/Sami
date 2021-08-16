@@ -275,15 +275,24 @@ for ele in Cat_full_filtrada:
         area_cat['Categoria'].append(cat)
         area_cat['Qtd'].append(ele['infos'][cat]['Total'])
 area_cat = pd.DataFrame(area_cat)     
+
+refs = area_cat['Referência'].drop_duplicates().reset_index(drop=True)
+refs2 = {'ref':[], 'semana':[]}
+for ref in refs:
+    refs2['ref'].append(ref)
+    refs2['semana'].append(str(ref)[2:]+" a "+str(ref+timedelta(days=6))[2:])
+refs2 = pd.DataFrame(refs2)
+area_cat = area_cat.merge(refs2, how='left', left_on='Referência', right_on='ref')
+
 area_cat.Referência = pd.to_datetime(area_cat.Referência)
 area_cat.Qtd = pd.to_numeric(area_cat.Qtd)
 
-time_cat =alt.Chart(area_cat,height=450).mark_area(interpolate="basis").encode(
-    x="Referência:T",
+time_cat =alt.Chart(area_cat,height=450).mark_bar().encode(
+    x=alt.X("semana", axis=alt.Axis(labelAngle = 30, labelFontSize=12)),
     y="Qtd:Q",
     color=alt.Color('Categoria:N', scale=alt.Scale(domain=list(colores_cat.keys()), range=list(colores_cat.values())), legend=alt.Legend(orient='right')),
                     opacity=alt.value(0.6),
-    tooltip=['Categoria:N', 'Qtd:Q', 'Referência']
+    tooltip=['Categoria:N', 'Qtd:Q', 'semana']
 ).configure_axis(grid = False).interactive()
 
 col2.markdown('### Evolução temporal categorias')
@@ -312,7 +321,7 @@ refs = area_subcatcat['Referência'].drop_duplicates().reset_index(drop=True)
 refs2 = {'ref':[], 'semana':[]}
 for ref in refs:
     refs2['ref'].append(ref)
-    refs2['semana'].append(str(ref)+" a "+str(ref+timedelta(days=6)))
+    refs2['semana'].append(str(ref)[2:]+" a "+str(ref+timedelta(days=6))[2:])
 refs2 = pd.DataFrame(refs2)
 area_subcatcat = area_subcatcat.merge(refs2, how='left', left_on='Referência', right_on='ref')
 area_subcatcat= area_subcatcat.drop(columns = ['Referência', 'ref'])
