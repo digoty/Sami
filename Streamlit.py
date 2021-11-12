@@ -86,7 +86,7 @@ st.sidebar.markdown('___')
 
 st.sidebar.markdown("### Prestadores:")
 Prestador_selec = st.sidebar.multiselect('Selecione os prestadores que deseja visualizar', Lista_prestador, Lista_prestador[0])
-st.markdown('___')
+st.sidebar.markdown('___')
 
 st.sidebar.markdown("### Especialidades:")
 Especialidade_selec = st.sidebar.multiselect('Selecione as especialidades que deseja visualizar', Lista_especialidade, Lista_especialidade[0])
