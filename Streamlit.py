@@ -74,7 +74,7 @@ usuário = st.sidebar.text_input("Usuario", 'Usuario')
 senha = st.sidebar.text_input("Senha", 'Senha', type="password")
 
 if usuário=='Usuario' and senha == 'Senha':
-    st.markdown("# 👋 Bem-vindo!")
+    st.markdown("# 👋 Bem-vindo ao heatmap da Sami!")
     st.markdown("## Para continuar, efetue o seu login ao lado 👈")
     
 elif usuário=='Sami' and senha == 'samirocks':    
