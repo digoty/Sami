@@ -213,7 +213,7 @@ NIL = folium.features.GeoJson(
     highlight_function=highlight_function, 
     tooltip=folium.features.GeoJsonTooltip(
         fields=['name', 'QTD_BEN','QTD_ESP', 'QTD_PRE'],
-        aliases=['Cidade/Bairro: ','Quantidade de beneficiários: ', 'Quantidade de especialidades distintas: ', 'Quantidade de pontos de atendimentos: ' ],
+        aliases=['Cidade/Bairro: ','Beneficiários: ', 'Especialidades distintas: ', 'Pontos de atendimentos: ' ],
         style=("background-color: white; color: #333333; font-family: arial; font-size: 12px; padding: 10px;") 
     )
 )
