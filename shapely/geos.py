@@ -30,6 +30,36 @@ else:
 # Find and load the GEOS and C libraries
 # If this ever gets any longer, we'll break it into separate modules
 
+def load_dll(libname, fallbacks=None, mode=DEFAULT_MODE):
+    lib = find_library(libname)
+    dll = None
+    if lib is not None:
+        try:
+            LOG.debug("Trying `CDLL(%s)`", lib)
+            dll = CDLL(lib, mode=mode)
+        except OSError:
+            LOG.debug("Failed `CDLL(%s)`", lib)
+            pass
+
+    if not dll and fallbacks is not None:
+        for name in fallbacks:
+            try:
+                LOG.debug("Trying `CDLL(%s)`", name)
+                dll = CDLL(name, mode=mode)
+            except OSError:
+                # move on to the next fallback
+                LOG.debug("Failed `CDLL(%s)`", name)
+                pass
+
+    if dll:
+        LOG.debug("Library path: %r", lib or name)
+        LOG.debug("DLL: %r", dll)
+        return dll
+    else:
+        # No shared library was loaded. Raise OSError.
+        raise OSError(
+            "Could not find lib {} or load any of its variants {}.".format(
+                libname, fallbacks or []))
 
 _lgeos = None
 
