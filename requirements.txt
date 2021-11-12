@@ -4,4 +4,4 @@ pandas==1.2.4
 streamlit==0.83.0
 streamlit_folium==0.4.0
 shapely==1.8.0
-pygeos==0.2
+pygeos==0.2.0
