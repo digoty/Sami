@@ -83,9 +83,9 @@ elif usuário=='Sami' and senha == 'samirocks':
 
     ## Pega informações para listas de seleções
 
-    Lista_prestador = ['']
-    Lista_bairro = ['']
-    Lista_especialidade = ['']
+    Lista_prestador = ['EM CONSTRUÇÃO']
+    Lista_bairro = ['EM CONSTRUÇÃO']
+    Lista_especialidade = ['EM CONSTRUÇÃO']
 
 
 
