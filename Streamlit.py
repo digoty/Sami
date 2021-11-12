@@ -5,7 +5,7 @@ import folium
 import geopandas as gpd
 from folium.plugins import HeatMap
 
-@st.cache
+#@st.cache
 
 st.set_page_config(layout = 'wide')
 
