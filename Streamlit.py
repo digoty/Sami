@@ -5,7 +5,7 @@ import folium
 import geopandas as gpd
 from folium.plugins import HeatMap
 
-#@st.cache
+@st.cache
 
 st.set_page_config(layout = 'wide')
 
@@ -67,7 +67,7 @@ prest = prest.drop(columns=['Endereço', 'NM_FANTASIA_PRESTADOR', 'DS_TIPO_PREST
 ## Desenha o dash:
 
 st.markdown("# Heatmap prestadores, especialidades e membros")
-st.markdown("## Filtros para visão detalhada:")
+st.sidebar.markdown("## Filtros para visão detalhada:")
 
 
 
@@ -80,17 +80,17 @@ Lista_especialidade = ['']
 
 
 
-st.markdown("### Bairros:")
-Bairro_selec = st.multiselect('Selecione os bairros/municípios que deseja visualizar', Lista_bairro, Lista_bairro[0])
+st.sidebar.markdown("### Bairros:")
+Bairro_selec = st.sidebar.multiselect('Selecione os bairros/municípios que deseja visualizar', Lista_bairro, Lista_bairro[0])
+st.sidebar.markdown('___')
+
+st.sidebar.markdown("### Prestadores:")
+Prestador_selec = st.sidebar.multiselect('Selecione os prestadores que deseja visualizar', Lista_prestador, Lista_prestador[0])
 st.markdown('___')
 
-st.markdown("### Prestadores:")
-Prestador_selec = st.multiselect('Selecione os prestadores que deseja visualizar', Lista_prestador, Lista_prestador[0])
-st.markdown('___')
-
-st.markdown("### Especialidades:")
-Especialidade_selec = st.multiselect('Selecione as especialidades que deseja visualizar', Lista_especialidade, Lista_especialidade[0])
-st.markdown('___')
+st.sidebar.markdown("### Especialidades:")
+Especialidade_selec = st.sidebar.multiselect('Selecione as especialidades que deseja visualizar', Lista_especialidade, Lista_especialidade[0])
+st.sidebar.markdown('___')
 
 
 
