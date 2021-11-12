@@ -150,42 +150,42 @@ elif usuário=='Sami' and senha == 'samirocks':
     HeatMap(benefi).add_to(folium.FeatureGroup(name='Heat Map - Beneficiarios', show=False).add_to(sample_map2))
 
     #2- especialidade
-    folium.Choropleth(  geo_data=df_mapa_espcl,
-                        data=df_mapa_espcl,
-                        columns=['id',"Quantidade"],
-                        key_on="feature.properties.id",
-                        fill_color='YlGnBu',
-                        fill_opacity=.7,
-                        line_opacity=0.2,
-                        legend_name="Quantidade especialidade",
-                        smooth_factor=0,
-                        Highlight= True,
-                        line_color = "#0000",
-                        name = "Mapa - Especialidade",
-                        show=False,
-                        overlay=True,
-                        nan_fill_color = "White"
-                        ).add_to(sample_map2)
+    #folium.Choropleth(  geo_data=df_mapa_espcl,
+     #                   data=df_mapa_espcl,
+      #                  columns=['id',"Quantidade"],
+       #                 key_on="feature.properties.id",
+        #                fill_color='YlGnBu',
+         #               fill_opacity=.7,
+          #              line_opacity=0.2,
+           #             legend_name="Quantidade especialidade",
+            #            smooth_factor=0,
+             #           Highlight= True,
+              #          line_color = "#0000",
+               #         name = "Mapa - Especialidade",
+                #        show=False,
+                 #       overlay=True,
+                  #      nan_fill_color = "White"
+                   #     ).add_to(sample_map2)
 
-    HeatMap(espcl).add_to(folium.FeatureGroup(name='Heat Map - especialidades distintas', show=False).add_to(sample_map2))
+    #HeatMap(espcl).add_to(folium.FeatureGroup(name='Heat Map - especialidades distintas', show=False).add_to(sample_map2))
 
     #3- Prestadores
-    folium.Choropleth(  geo_data=df_mapa_prest,
-                        data=df_mapa_prest,
-                        columns=['id',"Quantidade"],
-                        key_on="feature.properties.id",
-                        fill_color='YlGnBu',
-                        fill_opacity=.7,
-                        line_opacity=0.2,
-                        legend_name="Quantidade prestadores",
-                        smooth_factor=0,
-                        Highlight= True,
-                        line_color = "#0000",
-                        name = "Mapa - Prestadores",
-                        show=False,
-                        overlay=True,
-                        nan_fill_color = "White"
-                        ).add_to(sample_map2)
+    #folium.Choropleth(  geo_data=df_mapa_prest,
+     #                   data=df_mapa_prest,
+      #                  columns=['id',"Quantidade"],
+       #                 key_on="feature.properties.id",
+        #                fill_color='YlGnBu',
+         #               fill_opacity=.7,
+          #              line_opacity=0.2,
+           #             legend_name="Quantidade prestadores",
+            #            smooth_factor=0,
+             #           Highlight= True,
+              #          line_color = "#0000",
+               #         name = "Mapa - Prestadores",
+                #        show=False,
+                 #       overlay=True,
+                  #      nan_fill_color = "White"
+                   #     ).add_to(sample_map2)
 
     HeatMap(prest).add_to(folium.FeatureGroup(name='Heat Map - Pontos de atendimentos', show=False).add_to(sample_map2))
 
