@@ -237,7 +237,7 @@ elif usuário=='Sami' and senha == 'samirocks':
     folium.LayerControl(collapsed=True, ).add_to(sample_map2)
     
 
-    folium_static(sample_map2, width=1400, height=700)
+    folium_static(sample_map2, width=1200, height=700)
 
 else:
     st.error('Falha no login')
